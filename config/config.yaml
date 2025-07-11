@@ -8,6 +8,9 @@ binance_api_secret: "2aJT7xKGyYEYfi3WN3IFMs3qbBgllsMWuuSFH1CKoEe5MJiivd2dZvMAhV9
 symbol: "BTC/USDT"
 timeframe: "15m"
 
+exchange_id: "binanceus"   # ou "kraken", "kucoin", etc.
+
+
 # Capital inicial simulado
 capital_usdt: 450
 
