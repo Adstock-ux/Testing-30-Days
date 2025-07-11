@@ -1,0 +1,29 @@
+# config/config.yaml
+
+# API Binance
+binance_api_key: "5BdYEOfogoc4JJMEXt1zxXNuIQi8WiOsvG1c3GeUGa149lEJYAQsCXoc84tCahBc"
+binance_api_secret: "2aJT7xKGyYEYfi3WN3IFMs3qbBgllsMWuuSFH1CKoEe5MJiivd2dZvMAhV9lgRDr"
+
+# Par e timeframe
+symbol: "BTC/USDT"
+timeframe: "15m"
+
+# Capital inicial simulado
+capital_usdt: 450
+
+# Risco por operação (1% do capital ajustado ao regime)
+risk_fraction: 0.01
+
+# Trade mínimo em USDT (evita ordens pequenas)
+min_trade_size: 10
+
+# Quantidade de candles para coleta
+bars_limit: 300
+
+# Tempo entre ciclos do bot (em segundos)
+sleep_time: 60
+
+# Parâmetros extras
+min_bars: 100
+enable_rl: true
+override_regime: null  # para testes fixar ex: "bull", "bear", "sideways"
