@@ -6,7 +6,9 @@ import time
 import logging
 
 def fetch_market_data(symbol, timeframe, config):
-    exchange = ccxt.binance({
+    ex_id = config.get("exchange_id", "binance")
+    exchange_cls = getattr(ccxt, ex_id)
+    exchange = exchange_cls({
         "enableRateLimit": True,
         "options": {"defaultType": "spot"},
     })
