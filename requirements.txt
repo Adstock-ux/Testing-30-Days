@@ -1,6 +1,6 @@
 ccxt
 pandas
-numpy
+numpy<1.25.0,>=1.24.0
 pandas-ta
 gymnasium
 stable-baselines3
