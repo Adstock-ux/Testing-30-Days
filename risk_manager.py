@@ -1,40 +1,35 @@
 # risk_manager.py
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 def compute_position_size(df: pd.DataFrame, signal: str, regime: str, config: dict) -> float:
-    if signal == "hold":
+    """
+    Calcula o tamanho de posição baseado em FRAÇÃO DO CAPITAL (config["risk_fraction"]),
+    usando o saldo fictício em config["capital_usdt"] e ignorando ATR.
+    """
+    # Não abre posição se for hold
+    if signal.lower() == "hold":
         return 0.0
 
-    capital = config.get("capital_usdt", 1000)
-    risk_fraction = config.get("risk_fraction", 0.01)  # 1% do capital por trade
-    min_trade = config.get("min_trade_size", 10)       # mínimo por trade em USDT
+    # Saldo fictício e fração de investimento
+    capital = config.get("capital_usdt", 0.0)
+    invest_fraction = config.get("risk_fraction", 1.0)  # ex: 1.0 = 100% do saldo
 
-    # Cálculo de volatilidade (ATR)
-    atr = df["atr_14"].iloc[-1] if "atr_14" in df.columns else 0.005
+    # Valor em USDT a ser investido
+    pos_size_usd = capital * invest_fraction
+
+    # Preço de mercado atual
     price = df["close"].iloc[-1]
 
-    # Ajuste por regime (regimes voláteis → posições menores)
-    regime_multiplier = {
-        "bull": 1.0,
-        "bear": 0.6,
-        "sideways": 0.3
-    }.get(regime, 0.5)
+    # Quantidade da moeda a comprar ou vender
+    amount = pos_size_usd / price
 
-    # Tamanho em USDT baseado no risco
-    risk_usdt = capital * risk_fraction * regime_multiplier
-    if atr > 0:
-        pos_size = risk_usdt / atr
-    else:
-        pos_size = risk_usdt / (0.01 * price)  # fallback
-
-    # Converte para quantidade da moeda
-    amount = pos_size / price
-
-    # Limita posição mínima
+    # Filtra ordens abaixo do mínimo definido
+    min_trade = config.get("min_trade_size", 0.0)
     if amount * price < min_trade:
         return 0.0
 
-    # Arredonda para 6 casas decimais
+    # Arredonda para 6 casas decimais (padrão CCXT)
     return round(amount, 6)
+
