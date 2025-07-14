@@ -18,7 +18,7 @@ capital_usdt: 450
 risk_fraction: 1.00
 
 # Trade mínimo em USDT (evita ordens pequenas)
-min_trade_size: 50
+min_trade_size: 450
 
 # Quantidade de candles para coleta
 bars_limit: 300
