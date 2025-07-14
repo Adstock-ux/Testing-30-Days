@@ -21,31 +21,32 @@ def _get_exchange():
     exchange.set_sandbox_mode(True)
     return exchange
 
+# execution_engine.py
+
+import logging
+
 def execute_trade(symbol: str, signal: str, position_size: float, config: dict) -> dict:
     """
-    Executa uma ordem de mercado (buy/sell) na Binance Testnet.
-    Recebe também 'config' para manter compatibilidade com main.py,
-    mas não usa esse parâmetro internamente.
-    Retorna o dict de resposta da ordem ou {} caso hold ou erro.
+    Simula a execução de uma ordem de mercado (buy/sell) sem
+    chamar nenhuma API real. Retorna um dict “truthy” para
+    marcar o trade como executado, ou {} para hold/skip.
     """
-    exchange = _get_exchange()
-
     try:
-        ticker = exchange.fetch_ticker(symbol)
-        price = ticker["last"]
-
-        if signal == "buy" and position_size > 0:
-            order = exchange.create_order(symbol, "market", "buy", position_size)
-            logging.info(f"[Exec] 🟢 BUY {position_size} {symbol} @ {price}")
-        elif signal == "sell" and position_size > 0:
-            order = exchange.create_order(symbol, "market", "sell", position_size)
-            logging.info(f"[Exec] 🔴 SELL {position_size} {symbol} @ {price}")
-        else:
-            logging.info("[Exec] ⚪ HOLD — nenhuma ordem executada.")
+        # Se for hold ou size zero, nada a fazer
+        if signal.lower() not in ("buy", "sell") or position_size <= 0:
+            logging.info("⚪ HOLD — nenhuma ordem executada (simulada).")
             return {}
 
-        return order
+        # Simula execução
+        logging.info(f"⚪️ Simulated {signal.upper()} {position_size:.6f} {symbol}")
+        return {
+            "simulated": True,
+            "symbol": symbol,
+            "side": signal,
+            "amount": position_size,
+        }
 
     except Exception as e:
-        logging.exception(f"[Exec] Erro ao executar ordem: {e}")
+        # Qualquer erro aqui não impede o bot de continuar
+        logging.exception(f"[Exec] Simulated execution error (ignored): {e}")
         return {}
