@@ -15,10 +15,10 @@ exchange_id: "binanceus"   # ou "kraken", "kucoin", etc.
 capital_usdt: 450
 
 # Risco por operação (1% do capital ajustado ao regime)
-risk_fraction: 0.01
+risk_fraction: 1.00
 
 # Trade mínimo em USDT (evita ordens pequenas)
-min_trade_size: 10
+min_trade_size: 50
 
 # Quantidade de candles para coleta
 bars_limit: 300
