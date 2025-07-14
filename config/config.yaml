@@ -14,6 +14,9 @@ exchange_id: "binanceus"   # ou "kraken", "kucoin", etc.
 # Capital inicial simulado
 capital_usdt: 450
 
+# saldo fictício de BTC
+faux_asset_balance: 0.0    
+
 # Risco por operação (1% do capital ajustado ao regime)
 risk_fraction: 1.00
 
